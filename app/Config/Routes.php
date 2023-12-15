@@ -7,5 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
+//routes for the DSS
 $routes->match(['get', 'post'], '/predictions', 'DssControllers/PredictionsController::index');
 $routes->match(['get', 'post'], '/current', 'DssControllers/CurrentController::index');
