@@ -10,3 +10,5 @@ $routes->get('/', 'HomeController::index');
 //routes for the DSS
 $routes->match(['get', 'post'], '/predictions', 'DssControllers/PredictionsController::index');
 $routes->match(['get', 'post'], '/current', 'DssControllers/CurrentController::index');
+$routes->match(['get', 'post'], '/warehouse', 'DssControllers/WarehouseController::index');
+$routes->match(['get', 'post'], '/reports', 'DssControllers/ReportsController::index');
