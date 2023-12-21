@@ -28,5 +28,5 @@ class FirebaseModel
         return $snapshot->getValue();
     }
 
-    // Add other methods as needed
+    
 }
