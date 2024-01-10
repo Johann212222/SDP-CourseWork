@@ -9,6 +9,7 @@ use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
 
+
 class Filters extends BaseConfig
 {
     /**
@@ -25,6 +26,12 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'auth'          => \App\Filters\Auth::class,
+        'AuthCheck'     => \App\Filters\AuthCheck::class,
+        'AdminCheck'    => \App\Filters\AdminCheck::class,
+        'DeptEmpCheck'  => \App\Filters\DeptEmpCheck::class,
+        'DeptAdminCheck'=> \App\Filters\DeptAdminCheck::class,
+        'UserCheck'     => \App\Filters\UserCheck::class,
     ];
 
     /**

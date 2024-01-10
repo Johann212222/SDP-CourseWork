@@ -5,6 +5,12 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->get('/', 'HomeController::index');
+$routes->get('/test', 'HomeController::test');
+$routes->get('/add', 'HomeController::add');
+$routes->post('/action_add', 'HomeController::action_add');
+$routes->get('/action_edit/(:any)', 'HomeController::action_edit/$1');
+$routes->post('/action_edit/(:any)', 'HomeController::action_edit/$1');
 
 //routes for the DSS
 $routes->match(['get', 'post'], '/predictions', 'DssControllers/PredictionsController::index');
