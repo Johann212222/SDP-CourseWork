@@ -72,7 +72,7 @@ class AdminController extends BaseController
         
         if (! $this->validate($rules)) {
             $data['title'] = 'Change Department Admin User Data';
-            // $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+            // $data['user'] = $this->db->get_where('user', ['email' => session()->userdata('email')])->row_array();
             $retrieve = $db->fetch("user_emp/$id");
             // $data = json_decode($retrieve, 1);
             $data['user'] = $retrieve;
@@ -99,7 +99,7 @@ class AdminController extends BaseController
             ];
 
             $update = $db->update('user_emp',$id,$data);    
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             User data changed successfully!</div>');
             return redirect()->to('admin/deptadmin');
         }
@@ -159,7 +159,7 @@ class AdminController extends BaseController
         $fetchedData = $db->fetchWithCondition($tableName, $conditionField, $conditionValue);
         // if (sizeof($fetchedData)>0) {
 
-        //     $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+        //     session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
         //     Sorry, user email already exists!</div>');
             
         //     return redirect()->to('admin/deptadmin/add');
@@ -183,7 +183,7 @@ class AdminController extends BaseController
                 'last_modified' => $timestamp
             ];
             $insert = $db->insert("user_emp",$data);
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             Department Admin has been created successfully.</div>');
             
             return redirect()->to('admin/deptadmin');
@@ -266,7 +266,7 @@ class AdminController extends BaseController
             ];
 
             $update = $db->update('user_complainant',$id,$data);    
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             User data changed successfully!</div>');
             return redirect()->to('admin/userdata');
 

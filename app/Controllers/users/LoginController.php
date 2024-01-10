@@ -73,25 +73,25 @@ class LoginController extends BaseController
                         session()->set('userinfo', $userinfo);
 
                         //add role_id to session
-                        // $this->session->set('role_id',0);
+                        // session()->set('role_id',0);
 
                         //redirect to user(Compaintant) dashboard
                         return redirect()->to('dashboard');
                     }else{
                         // if password incorrect redirect to login page and display error message
-                        $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                        session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                         Wrong Password!</div>');
                         return redirect()->to('login');
                     }
                 } else {
                     // if account not active redirect to login page and display error message
-                    $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                    session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                     This email has not been activated yet!</div>');
                     return redirect()->to('login');
                 }   
             } else {
                 // if user account doesnot exist redirect to login page and display error message
-                $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                 Email is not registered!</div>');
                 return redirect()->to('login');
             }
@@ -159,7 +159,7 @@ class LoginController extends BaseController
         $fetchedData = $db->fetchWithCondition($tableName, $conditionField, $conditionValue);
         
         if(sizeof($fetchedData) > 0) {
-            $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
             Entered NIC already registered. Try Loggin in.</div>');
             return redirect()->to('login');
 
@@ -179,7 +179,7 @@ class LoginController extends BaseController
             $insert_token = $db->insert("user_token",$user_token);
 
             $this->sendMail($token, 'verify');
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             Your account has been created successfully.Please check your email to activate your account! </div>');
             
             return redirect()->to('login');
@@ -268,19 +268,19 @@ class LoginController extends BaseController
                         return redirect()->to('admin');
                     }else{
                         // if password incorrect redirect to login page and display error message
-                        $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                        session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                         Wrong Password!</div>');
                         return redirect()->to('adminlogin');
                     }
                 } else {
                     // if account not active redirect to login page and display error message
-                    $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                    session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                     This email has not been activated yet!</div>');
                     return redirect()->to('adminlogin');
                 }   
             } else {
                 // if user account doesnot exist redirect to login page and display error message
-                $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                 Email is not registered!</div>');
                 return redirect()->to('adminlogin');
             }
@@ -356,19 +356,19 @@ class LoginController extends BaseController
                         }
                     }else{
                         // if password incorrect redirect to login page and display error message
-                        $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                        session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                         Wrong Password!</div>');
                         return redirect()->to('emplogin');
                     }
                 } else {
                     // if account not active redirect to login page and display error message
-                    $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                    session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                     This email has not been activated yet!</div>');
                     return redirect()->to('emplogin');
                 }   
             } else {
                 // if user account doesnot exist redirect to login page and display error message
-                $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+                session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
                 Email is not registered!</div>');
                 return redirect()->to('emplogin');
             }
@@ -379,11 +379,11 @@ class LoginController extends BaseController
     // logout
     public function logout()
     {
-        $role_id = $this->session->get("userdata")['role_id'];
-        // $this->session->destroy();
+        $role_id = session()->get("userdata")['role_id'];
+        // session()->destroy();
         $array_items = ['email','role_id','name','image','userdata','userinfo'];
-        $this->session->remove($array_items);
-        $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+        session()->remove($array_items);
+        session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
         Signed Out Successfully!</div>');
         if($role_id==0){
             return redirect()->to('login');
@@ -461,7 +461,7 @@ class LoginController extends BaseController
             //         $this->db->delete('user', ['email' => $email]);
             //         $this->db->delete('user_token', ['email' => $email]);
 
-            //         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            //         session()->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             //         Account activation failed! Token expired.</div>');
             //         redirect('auth');
             } else {

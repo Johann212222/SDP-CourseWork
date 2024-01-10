@@ -80,82 +80,14 @@ class UsersController extends BaseController
             }
             
             $uid = session()->get('userinfo')['uid'];
-            $table = session()->get('userinfo')['table'];
-
-            echo $uid;
-            echo $table;
-            
-
-        //     $userdata = session()->get('userdata');
-        // if($userdata['role_id'] == 0){
-        //     $table = 'user_complainant';
-        // }elseif($userdata['role_id'] == 1){
-        //     $table = 'user_admin';
-        // }else{
-        //     $table = 'user_emp';
-        // }
-
-        // $fetchdata = $db->fetchWithCondition($table,'email',$userdata['email'] );
-        // $data['title'] = 'Change Password';
-        // foreach($fetchdata as $key => $value){
-        //     $data['user'] = $value;
-        //     $data['uid'] = $key;
-        // }
-
-
-            // $userdata = session()->get('userdata');
-            // if($userdata['role_id'] == 0){
-            //     $builder = $db->table('user_complainant');
-            // }elseif($userdata['role_id'] == 1){
-            //     $builder = $db->table('user_admin');
-            // }else{
-            //     $builder = $db->table('user_emp');
-            // }
-            // $builder->where('email', $email);
-            // $builder->update($data);
-            
-            // if ($upload_image) {
-            //     $config['allowed_types']    = 'jpg|jpeg|png';
-            //     $config['max_size']         = '6000';
-            //     $config['upload_path']      = './assets/img/profile/';
-
-            //     $this->load->library('upload', $config);
-             
+            $table = session()->get('userinfo')['table'];              
 
             $update = $db->update($table,$uid,$updatedata);    
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             Profile changed successfully!</div>');
 
             return redirect()->to('myprofile');
-                        
-    
-                        // $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
-                        // Profile changed successfully!</div>');
-                        // return redirect()->to('/myprofile');
-
-                // if ($this->upload->do_upload('image')) {
-                //     $old_image = session('userdata')['image'];
-                //     if ($old_image != 'default.jpg') {
-                //         unlink(FCPATH.'/assets/img/profile/'.$old_image);
-                //     }
-
-                //     $new_image = $this->upload->data('file_name');
-                //     $email = $this->request->getPost('email');
-                //     $data = [
-                //         'name' => $this->request->getPost('name'),
-                //         'image' => $new_image,
-                //     ];
-                //     $builder->insert($data);
-
-                //     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                //     Profile changed successfully!</div>');
-                //     return redirect()->to('/myprofile');
             
-                // } else {
-                //     echo $this->upload->display_errors();
-                // }
-            // }
-            // echo 'error';
         }
     }
 
@@ -180,34 +112,6 @@ class UsersController extends BaseController
         // . view('layouts/users/footer');
     }
 
-    public function getuserinfo(){
-
-        $userdata = session()->get('userdata');
-        if($userdata['role_id'] == 0){
-            $table = 'user_complainant';
-        }elseif($userdata['role_id'] == 1){
-            $table = 'user_admin';
-        }else{
-            $table = 'user_emp';
-        }
-        $db = db_connect();
-        $fetchdata = $db->fetchWithCondition($table,'email',$userdata['email'] );
-        foreach($fetchdata as $key => $value){
-            session('userdata')->push('uid', $key);
-        }
-
-
-        // $db = db_connect();
-        // $role_id = session('userdata')['role_id'];
-        // if($role_id==0){
-        //     $dbname = 'user_complainant';
-        // }else{
-        //     $dbname = 'user_emp';
-        // };
-        // $builder = $db->table($dbname);
-        // $query = $builder->getWhere(['id' => $id]);
-        // $userdata = $query->getRowArray();
-    }
 
     // change password user
     public function changepassword()
@@ -225,22 +129,23 @@ class UsersController extends BaseController
             . view('layouts/users/footer');
         }
 
-        $userdata = session()->get('userdata');
-        if($userdata['role_id'] == 0){
-            $table = 'user_complainant';
-        }elseif($userdata['role_id'] == 1){
-            $table = 'user_admin';
-        }else{
-            $table = 'user_emp';
-        }
+        $userdata = session()->get('userinfo');
+        $table = $userdata['table'];
+        // if($userdata['role'] == 0){
+        //     $table = 'user_complainant';
+        // }elseif($userdata['role_id'] == 1){
+        //     $table = 'user_admin';
+        // }else{
+        //     $table = 'user_emp';
+        // }
 
+        // $fetchdata = $db->retrieve($table,'email',$userdata['email'] );
         $fetchdata = $db->fetchWithCondition($table,'email',$userdata['email'] );
         $data['title'] = 'Change Password';
         foreach($fetchdata as $key => $value){
             $data['user'] = $value;
             $data['uid'] = $key;
         }
-
         
         $rules = [
             'current_password' => ['label' => 'Old Ppassword', 'rules' => 'required|trim'],
@@ -277,7 +182,7 @@ class UsersController extends BaseController
                     ];
                     // var_dump($data['uid']);
                     $update = $db->update($table,$data['uid'],$updatedata);    
-                    $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+                    session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
                     Password changed successfully!</div>');
                     return redirect()->to('myprofile/changepassword');
                 }

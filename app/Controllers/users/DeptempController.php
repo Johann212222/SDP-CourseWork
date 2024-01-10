@@ -87,7 +87,7 @@ class DeptempController extends BaseController
         
         if (! $this->validate($rules)) {
             $data['title'] = 'Change Department Employee Info';
-            // $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+            // $data['user'] = $this->db->get_where('user', ['email' => session()->userdata('email')])->row_array();
             $db = db_connect();
             $builder = $db->table('user_emp');
             $query = $builder->getWhere(['id' => $id]);
@@ -117,7 +117,7 @@ class DeptempController extends BaseController
             $builder = $db->table('user_emp');
             $builder->where('id', $id);
             $builder->update($data);    
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             User data changed successfully!</div>');
             return redirect()->to('dept/employee');
         }
@@ -168,7 +168,7 @@ class DeptempController extends BaseController
         $builder = $db->table('user_emp');
         $query = $builder->getWhere(['email' => $email]);
         if($query->getNumRows() > 0) {
-            $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-danger" role="alert">
             Sorry, user email already exists!</div>');
             
             return redirect()->to('dept/employee/add');
@@ -182,7 +182,7 @@ class DeptempController extends BaseController
             $data = [
                 'name' => $name,
                 'email' => $email,
-                'institute' => $this->session->get('institute'),
+                'institute' => session()->get('institute'),
                 'designation' => $this->request->getPost('designation'),
                 'image' => 'default.jpg',
                 'password' => password_hash('Password@123',PASSWORD_BCRYPT),
@@ -198,7 +198,7 @@ class DeptempController extends BaseController
             
             // $session->setFlashdata('message', '<div class="alert alert-success" role="alert">
             // Your account has been created successfully. Please check your email to activate your account!</div>');
-            $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+            session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             Department Admin has been created successfully.</div>');
             
             return redirect()->to('dept/employee');
@@ -214,7 +214,7 @@ class DeptempController extends BaseController
 
         $builder->delete(['id' => $id]);
         
-        $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">
+        session()->setFlashdata('message', '<div class="alert alert-success" role="alert">
             Employee has been deleted successfully.</div>');
             
             return redirect()->to('dept/employee');
