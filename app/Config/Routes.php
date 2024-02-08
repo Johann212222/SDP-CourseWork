@@ -12,3 +12,6 @@ $routes->match(['get', 'post'], '/predictions', 'DssControllers/PredictionsContr
 $routes->match(['get', 'post'], '/current', 'DssControllers/CurrentController::index');
 $routes->match(['get', 'post'], '/warehouse', 'DssControllers/WarehouseController::index');
 $routes->match(['get', 'post'], '/reports', 'DssControllers/ReportsController::index');
+
+//route for the complaint submition form
+$routes->match(['get', 'post'], '/report', 'ReportForm::submitForm');
