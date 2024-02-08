@@ -11,6 +11,7 @@ class FirebaseModel
 
     public function __construct()
     {
+        // Load the Firebase configuration from Config/Firebase.php
         $serviceAccount = ServiceAccount::fromValue(config('Firebase')->credentialsPath);
 
         $firebase = (new Factory())
@@ -30,15 +31,11 @@ class FirebaseModel
 
     public function saveData($path, $data)
     {
+        // Get the current highest ID in the collection
+        $highestId = $this->getHighestId($path);
 
-        // Get the current count of entries in the collection
-        $count = $this->getEntryCount($path);
-
-        // Get the current count of entries in the collection
-        //$count = $this->getHighestId($path);
-
-        // Increment the count to get the next sequential ID
-        $nextId = $count + 1;
+        // Increment the highest ID to get the next sequential ID
+        $nextId = $highestId + 1;
 
         // Append the data with the new ID
         $data['id'] = $nextId;
@@ -50,14 +47,23 @@ class FirebaseModel
         return $nextId;
     }
 
-    private function getEntryCount($path)
+    private function getHighestId($path)
     {
-        // Get the count of entries in the collection
-        $snapshot = $this->database->getReference($path)->getSnapshot();
+        // Get all entries in the collection
+        $entries = $this->database->getReference($path)->getSnapshot()->getValue();
 
-        // Return the count
-        return $snapshot->numChildren();
+        // Initialize the highest ID variable
+        $highestId = 0;
+
+        // Loop through the entries to find the highest ID
+        foreach ($entries as $entry) {
+            if (isset($entry['id']) && $entry['id'] > $highestId) {
+                $highestId = $entry['id'];
+            }
+        }
+
+        // Return the highest ID
+        return $highestId;
     }
-
     
 }
